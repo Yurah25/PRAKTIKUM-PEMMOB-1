@@ -25,6 +25,6 @@ Pada pertemuan ketiga, praktikum mempelajari pengelolaan data dalam bentuk list 
 ---
 **📝 Tugas Pertemuan 3
 Tanggal: Selasa, 22 September 2026
-![tugas-3.png](./tugas_3.jpeg)
+![tugas-3.png](./tugas-3.jpeg)
 Kesimpulan Praktikum:  
 Pada pertemuan keempat, praktikum mempelajari konsep State, Recomposition, dan State Hoisting pada Jetpack Compose. Mahasiswa juga menerapkan fitur pencarian produk, loading asynchronous, detail produk, navigasi antar halaman, serta pengembangan form Hubungi Kami yang lebih interaktif.**
