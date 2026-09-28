@@ -21,3 +21,10 @@ Tanggal: Selasa, 15 September 2026
 ![tugas-3.png](./tugas-3.jpeg)
 Kesimpulan Praktikum:  
 Pada pertemuan ketiga, praktikum mempelajari pengelolaan data dalam bentuk list menggunakan data class dan dummy data. Mahasiswa juga menerapkan LazyRow dan LazyVerticalGrid untuk menampilkan daftar kategori dan produk secara efisien.**
+
+---
+**📝 Tugas Pertemuan 3
+Tanggal: Selasa, 22 September 2026
+![tugas-3.png](./tugas_3.jpeg)
+Kesimpulan Praktikum:  
+Pada pertemuan keempat, praktikum mempelajari konsep State, Recomposition, dan State Hoisting pada Jetpack Compose. Mahasiswa juga menerapkan fitur pencarian produk, loading asynchronous, detail produk, navigasi antar halaman, serta pengembangan form Hubungi Kami yang lebih interaktif.**
