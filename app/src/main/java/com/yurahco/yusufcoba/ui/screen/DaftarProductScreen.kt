@@ -1,7 +1,5 @@
 package com.yurahco.yusufcoba.ui.screen
 
-import android.widget.Toast
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,27 +19,31 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.ShoppingCart
-
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,19 +52,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
+import androidx.navigation.NavController
 import com.yurahco.yusufcoba.R
 import com.yurahco.yusufcoba.data.dummy.DummyData
 import com.yurahco.yusufcoba.data.model.Category
 import com.yurahco.yusufcoba.data.model.Product
-import com.yurahco.yusufcoba.ui.theme.YusufCobaTheme
-
-
-// ============================================================
-// E. PRODUCT ITEM CARD
-// ============================================================
+import kotlinx.coroutines.delay
 
 @Composable
 fun ProductItemCard(
@@ -73,58 +69,39 @@ fun ProductItemCard(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable {
-                onClick()
-            },
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        ),
+            .clickable { onClick() },
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         )
     ) {
-
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-
-            val imageRes = if (product.img == "dummy_product") {
-                R.drawable.dummy_product
-            } else {
-                R.drawable.dummy_product
-            }
-
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-
                 Image(
-                    painter = painterResource(id = imageRes),
+                    painter = painterResource(id = R.drawable.dummy_product),
                     contentDescription = product.name,
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
-                        .clip(
-                            RoundedCornerShape(8.dp)
-                        )
+                        .clip(RoundedCornerShape(8.dp))
                         .background(Color.White),
                     contentScale = ContentScale.Fit
                 )
 
-                if (product.category != null) {
+                product.category?.let { category ->
                     Box(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
                             .padding(4.dp)
-                            .clip(
-                                RoundedCornerShape(4.dp)
-                            )
-                            .background(
-                                MaterialTheme.colorScheme.secondary
-                            )
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(MaterialTheme.colorScheme.secondary)
                     ) {
                         Text(
-                            text = product.category.name,
+                            text = category.name,
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSecondary,
                             modifier = Modifier.padding(
@@ -136,9 +113,7 @@ fun ProductItemCard(
                 }
             }
 
-            Spacer(
-                modifier = Modifier.height(8.dp)
-            )
+            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = product.name,
@@ -148,9 +123,7 @@ fun ProductItemCard(
                 overflow = TextOverflow.Ellipsis
             )
 
-            Spacer(
-                modifier = Modifier.height(4.dp)
-            )
+            Spacer(modifier = Modifier.height(4.dp))
 
             Text(
                 text = "Rp ${product.price}",
@@ -161,35 +134,28 @@ fun ProductItemCard(
     }
 }
 
-
-// ============================================================
-// F. CATEGORY ITEM
-// ============================================================
-
 @Composable
 fun CategoryItem(
     category: Category,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
+    val backgroundColor =
+        if (isSelected) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            MaterialTheme.colorScheme.surfaceVariant
+        }
 
-    val backgroundColor = if (isSelected) {
-        MaterialTheme.colorScheme.primary
-    } else {
-        MaterialTheme.colorScheme.surfaceVariant
-    }
-
-    val textColor = if (isSelected) {
-        MaterialTheme.colorScheme.onPrimary
-    } else {
-        MaterialTheme.colorScheme.onSurfaceVariant
-    }
+    val textColor =
+        if (isSelected) {
+            MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        }
 
     Card(
-        modifier = Modifier
-            .clickable {
-                onClick()
-            },
+        modifier = Modifier.clickable { onClick() },
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor
         ),
@@ -197,7 +163,6 @@ fun CategoryItem(
             defaultElevation = 2.dp
         )
     ) {
-
         Text(
             text = category.name,
             modifier = Modifier.padding(
@@ -210,35 +175,105 @@ fun CategoryItem(
     }
 }
 
+@Composable
+fun DaftarProdukScreen(
+    navController: NavController? = null
+) {
+    var selectedCategoryId by rememberSaveable {
+        mutableStateOf(DummyData.categories.firstOrNull()?.id)
+    }
 
+    var searchQuery by rememberSaveable {
+        mutableStateOf("")
+    }
 
+    var isLoading by remember {
+        mutableStateOf(false)
+    }
+
+    var filteredProducts by remember {
+        mutableStateOf<List<Product>>(emptyList())
+    }
+
+    LaunchedEffect(
+        selectedCategoryId,
+        searchQuery
+    ) {
+        isLoading = true
+
+        delay(1000)
+
+        val filteredByCategory =
+            if (selectedCategoryId != null) {
+                DummyData.products.filter {
+                    it.category_id == selectedCategoryId
+                }
+            } else {
+                DummyData.products
+            }
+
+        filteredProducts =
+            if (searchQuery.isNotBlank()) {
+                filteredByCategory.filter {
+                    it.name.contains(
+                        searchQuery,
+                        ignoreCase = true
+                    )
+                }
+            } else {
+                filteredByCategory
+            }
+
+        isLoading = false
+    }
+
+    StatelessDaftarProduct(
+        categories = DummyData.categories,
+        selectedCategoryId = selectedCategoryId,
+        onCategorySelected = {
+            selectedCategoryId = it
+        },
+        searchQuery = searchQuery,
+        onSearchQueryChange = {
+            searchQuery = it
+        },
+        isLoading = isLoading,
+        products = filteredProducts,
+        onProductClick = { product ->
+            navController?.navigate(
+                route = "detail/${product.id}"
+            )
+        },
+        onContactUsClick = {
+            navController?.navigate(
+                route = "hubungi_kami"
+            )
+        }
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DaftarProdukScreen() {
-
-    var selectedCategoryId by remember {
-        mutableStateOf(
-            DummyData.categories.firstOrNull()?.id
-        )
+fun StatelessDaftarProduct(
+    categories: List<Category>,
+    selectedCategoryId: Int?,
+    onCategorySelected: (Int) -> Unit,
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
+    isLoading: Boolean,
+    products: List<Product>,
+    onProductClick: (Product) -> Unit,
+    onContactUsClick: () -> Unit
+) {
+    var expanded by remember {
+        mutableStateOf(false)
     }
-
-    val filteredProducts = if (selectedCategoryId != null) {
-        DummyData.products.filter { it.category_id == selectedCategoryId
-        }
-    } else {
-        DummyData.products
-    }
-
-    val context = androidx.compose.ui.platform.LocalContext.current
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = "Daftar Produk UMKM"
-                    )
+                    Text("Daftar Produk UMKM")
                 },
                 actions = {
                     IconButton(
@@ -247,6 +282,40 @@ fun DaftarProdukScreen() {
                         Icon(
                             imageVector = Icons.Default.ShoppingCart,
                             contentDescription = "Keranjang"
+                        )
+                    }
+
+                    IconButton(
+                        onClick = {
+                            expanded = true
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = "More"
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = {
+                            expanded = false
+                        }
+                    ) {
+                        DropdownMenuItem(
+                            text = {
+                                Text("Hubungi Kami")
+                            },
+                            onClick = {
+                                expanded = false
+                                onContactUsClick()
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.Email,
+                                    contentDescription = "Email"
+                                )
+                            }
                         )
                     }
                 },
@@ -258,16 +327,25 @@ fun DaftarProdukScreen() {
             )
         }
     ) { paddingValues ->
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-
-            // -------------------------------
-            // KATEGORI
-            // -------------------------------
+            OutlinedTextField(
+                value = searchQuery,
+                onValueChange = onSearchQueryChange,
+                label = {
+                    Text("Cari produk...")
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = 16.dp,
+                        vertical = 8.dp
+                    ),
+                singleLine = true
+            )
 
             Text(
                 text = "Kategori Produk",
@@ -281,26 +359,18 @@ fun DaftarProdukScreen() {
                 ),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-
-                items(DummyData.categories) { category ->
-
+                items(categories) { category ->
                     CategoryItem(
                         category = category,
                         isSelected = category.id == selectedCategoryId,
                         onClick = {
-                            selectedCategoryId = category.id
+                            onCategorySelected(category.id)
                         }
                     )
                 }
             }
 
-            Spacer(
-                modifier = Modifier.height(16.dp)
-            )
-
-            // -------------------------------
-            // JUDUL DAFTAR PRODUK
-            // -------------------------------
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = "Daftar Produk",
@@ -311,128 +381,44 @@ fun DaftarProdukScreen() {
                 )
             )
 
-            // -------------------------------
-            // GRID PRODUK
-            // -------------------------------
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-
-                items(filteredProducts) { product ->
-
-                    ProductItemCard(
-                        product = product,
-                        onClick = {
-
-                            Toast.makeText(
-                                context,
-                                "Clicked: ${product.name}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                        }
-                    )
+            if (isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator()
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("Memuat data...")
+                    }
+                }
+            } else if (products.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("Produk tidak ditemukan.")
+                }
+            } else {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    contentPadding = PaddingValues(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(products) { product ->
+                        ProductItemCard(
+                            product = product,
+                            onClick = {
+                                onProductClick(product)
+                            }
+                        )
+                    }
                 }
             }
         }
-    }
-}
-
-
-// ============================================================
-// G. PREVIEW PRODUCT
-// ============================================================
-
-@Preview(
-    showBackground = true,
-    name = "Preview Product"
-)
-@Composable
-fun PreviewProduct() {
-
-    YusufCobaTheme(
-        dynamicColor = false
-    ) {
-        ProductItemCard(
-            product = DummyData.products[0],
-            onClick = {}
-        )
-    }
-}
-
-
-// ============================================================
-// G. PREVIEW CATEGORY
-// ============================================================
-
-@Preview(
-    showBackground = true,
-    name = "Preview Category"
-)
-@Composable
-fun PreviewCategory() {
-
-    YusufCobaTheme(
-        dynamicColor = false
-    ) {
-
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-
-            CategoryItem(
-                category = DummyData.categories[0],
-                isSelected = true,
-                onClick = {}
-            )
-        }
-    }
-}
-
-
-// ============================================================
-// H. PREVIEW LIGHT
-// ============================================================
-
-@Preview(
-    showBackground = true,
-    name = "Light Theme"
-)
-@Composable
-fun PreviewDaftarProdukLight() {
-
-    YusufCobaTheme(
-        darkTheme = false,
-        dynamicColor = false
-    ) {
-
-        DaftarProdukScreen()
-    }
-}
-
-
-// ============================================================
-// H. PREVIEW DARK
-// ============================================================
-
-@Preview(
-    showBackground = true,
-    name = "Dark Theme"
-)
-@Composable
-fun PreviewDaftarProdukDark() {
-
-    YusufCobaTheme(
-        darkTheme = true,
-        dynamicColor = false
-    ) {
-
-        DaftarProdukScreen()
     }
 }
