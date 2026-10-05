@@ -5,28 +5,76 @@ import com.yurahco.yusufcoba.data.model.Product
 
 object DummyData {
     val categories = listOf(
-        Category(id = 1, name = "Makanan", description = "Aneka Makanan Lokal", products_count = 5),
-        Category(id = 2, name = "Minuman", description = "Minuman Segar", products_count = 5),
-        Category(id = 3, name = "Kerajinan", description = "Kerajinan Tangan", products_count = 5)
+        Category(
+            id = 1,
+            name = "Makanan",
+            description = "Aneka makanan olahan UMKM",
+            products_count = 2
+        ),
+        Category(
+            id = 2,
+            name = "Minuman",
+            description = "Aneka minuman segar UMKM",
+            products_count = 2
+        ),
+        Category(
+            id = 3,
+            name = "Kerajinan",
+            description = "Kerajinan tangan lokal",
+            products_count = 1
+        )
     )
 
     val products = listOf(
-        Product(1, 1, categories[0], "Kripik Singkong", "Kripik Gurih", 15000.0, 50, "dummy_product"),
-        Product(2, 1, categories[0], "Mendoan", "Mendoan Asli Purbalingga", 20000.0, 30, "dummy_product"),
-        Product(3, 1, categories[0], "Sale Pisang", "Sale Pisang Manis", 25000.0, 20, "dummy_product"),
-        Product(4, 1, categories[0], "Getuk Goreng", "Getuk Khas", 30000.0, 40, "dummy_product"),
-        Product(5, 1, categories[0], "Nopia", "Nopia Rasa Coklat", 22000.0, 60, "dummy_product"),
-
-        Product(6, 2, categories[1], "Es Dawet", "Dawet Segar", 10000.0, 100, "dummy_product"),
-        Product(7, 2, categories[1], "Wedang Jahe", "Jahe Instan", 12000.0, 50, "dummy_product"),
-        Product(8, 2, categories[1], "Kopi Robusta", "Kopi Bubuk", 45000.0, 20, "dummy_product"),
-        Product(9, 2, categories[1], "Teh Poci", "Teh Melati", 15000.0, 40, "dummy_product"),
-        Product(10, 2, categories[1], "Sirup Stroberi", "Sirup Rasa", 35000.0, 15, "dummy_product"),
-
-        Product(11, 3, categories[2], "Batik Purbalingga", "Kain Batik", 150000.0, 10, "dummy_product"),
-        Product(12, 3, categories[2], "Sandal Bandol", "Sandal awet", 40000.0, 25, "dummy_product"),
-        Product(13, 3, categories[2], "Sapu Glagah", "Sapu lantai", 25000.0, 100, "dummy_product"),
-        Product(14, 3, categories[2], "Gantungan Kunci", "Gantungan kayu", 5000.0, 150, "dummy_product"),
-        Product(15, 3, categories[2], "Tas Rajut", "Tas wanita rajut", 85000.0, 5, "dummy_product")
+        Product(
+            id = 1,
+            category_id = 1,
+            category = categories[0],
+            name = "Keripik Singkong Balado",
+            description = "Keripik singkong renyah dengan bumbu balado pedas manis khas rumahan.",
+            price = 15000.0,
+            stock = 50,
+            img = "dummy_product"
+        ),
+        Product(
+            id = 2,
+            category_id = 1,
+            category = categories[0],
+            name = "Kue Kering Nastar",
+            description = "Nastar homemade dengan selai nanas asli dan mentega pilihan.",
+            price = 50000.0,
+            stock = 20,
+            img = "dummy_product"
+        ),
+        Product(
+            id = 3,
+            category_id = 2,
+            category = categories[1],
+            name = "Es Teh Herbal Manis",
+            description = "Teh herbal alami yang menyegarkan dahaga.",
+            price = 5000.0,
+            stock = 100,
+            img = "dummy_product"
+        ),
+        Product(
+            id = 4,
+            category_id = 2,
+            category = categories[1],
+            name = "Susu Kedelai Murni",
+            description = "Susu kedelai segar kaya protein tanpa pengawet.",
+            price = 8000.0,
+            stock = 30,
+            img = "dummy_product"
+        ),
+        Product(
+            id = 5,
+            category_id = 3,
+            category = categories[2],
+            name = "Tas Anyaman Rotan",
+            description = "Tas tangan hasil kerajinan tangan pengrajin lokal berbahan rotan.",
+            price = 120000.0,
+            stock = 10,
+            img = "dummy_product"
+        )
     )
 }
