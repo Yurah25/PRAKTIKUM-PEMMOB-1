@@ -26,5 +26,18 @@ Pada pertemuan ketiga, praktikum mempelajari pengelolaan data dalam bentuk list 
 **📝 Tugas Pertemuan 4
 Tanggal: Selasa, 22 September 2026
 ![tugas-4.png](./tugas-4.jpeg)
+![tugas_4_1.png](./tugas_4_1.jpeg)
+![tugas_4_2.png](./tugas_4_2.jpeg)
+
 Kesimpulan Praktikum:  
 Pada pertemuan keempat, praktikum mempelajari konsep State, Recomposition, dan State Hoisting pada Jetpack Compose. Mahasiswa juga menerapkan fitur pencarian produk, loading asynchronous, detail produk, navigasi antar halaman, serta pengembangan form Hubungi Kami yang lebih interaktif.**
+
+
+---
+**📝 Tugas Pertemuan 7
+Tanggal: Selasa, 29 September 2026
+![tugas_5_1.png](./tugas_5_1.jpeg)
+![tugas_5_2.png](./tugas_5_2.jpeg)
+
+Kesimpulan Praktikum:  
+Pada pertemuan kelima, praktikum mempelajari Networking dan Architecture pada aplikasi Android dengan mengambil data dari API menggunakan Retrofit dan Gson. Mahasiswa juga menerapkan arsitektur MVVM menggunakan ViewModel dan StateFlow, serta menggunakan Coil untuk menampilkan gambar yang bersumber dari internet.**
